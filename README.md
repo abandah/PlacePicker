@@ -1,10 +1,10 @@
-# FeedBackHandler
+# ErrorHandler
+[![Release](https://jitpack.io/v/abandah/ErrorHandler.svg?style=flat-square)](https://jitpack.io/#abandah/ErrorHandler)
 
-[![Release](https://jitpack.io/v/abandah/testingTool.svg?style=flat-square)](https://jitpack.io/#abandah/testingTool)
+> Error handling library for Android and Java
 
-> FeedBack handling library for Android and Java
+Encapsulate error handling logic into objects that adhere to configurable defaults. Then pass them around as parameters or inject them via Web Service. 
 
-Encapsulate FeedBack handling logic into objects that adhere to configurable defaults. Then pass them around as parameters or inject them via Web Service. 
 
 Building with JitPack
 =====
@@ -29,35 +29,22 @@ gradle
 
 ```
 dependencies {
-    implementation 'com.github.abandah:testingTool:0.0.5'
+    implementation 'com.github.abandah:ErrorHandler:0.1.4'
 }
 ```
 
-**Step 3.**  Create new Class extends com.feedback.handler.App
+**Step 3.**  Create new Class extends Application and add Code inside onCreate()
 
 ```
-public class app extends com.feedback.handler.App {
-
+public class app extends Application {
 
     @Override
     public void onCreate() {
         super.onCreate();
-    }
-
-    @Override
-    protected String getFeedbackLink() {
-        return "FeedbackLink";
-    }
-
-    @Override
-    protected String ErrorLink() {
-        return "ErrorLink";
-    }
-
-    @Override
-    protected String getUserId() {
-        return "UserId";
-    }
+            new UCEHandler.Builder(this)
+                    .setTrackActivitiesEnabled(false)
+                    .setLink("WebService Link here")
+                    .build();
 }
 ```
 **Step 4.**  Add  android:name=".app" under application in manifist:
