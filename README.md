@@ -1,5 +1,5 @@
 # ErrorHandler
-[![Release](https://jitpack.io/v/abandah/ErrorHandler.svg?style=flat-square)](https://jitpack.io/#abandah/ErrorHandler)
+[![Release](https://jitpack.io/v/abandah/testingTool.svg?style=flat-square)](https://jitpack.io/#abandah/testingTool)
 
 > Error handling library for Android and Java
 
@@ -29,7 +29,7 @@ gradle
 
 ```
 dependencies {
-    implementation 'com.github.abandah:ErrorHandler:0.1.4'
+    implementation 'com.github.abandah:testingTool:0.1.4'
 }
 ```
 
