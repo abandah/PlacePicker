@@ -1,6 +1,6 @@
 # ErrorHandler
 [![Release](https://jitpack.io/v/abandah/testingTool.svg?style=flat-square)](https://jitpack.io/#abandah/testingTool)
-![Release](https://jitpack.io/v/abandah/testingTool.svg?style=flat-square)
+!(https://jitpack.io/v/abandah/testingTool.svg?style=flat-square)
 > Error handling library for Android and Java
 
 Encapsulate error handling logic into objects that adhere to configurable defaults. Then pass them around as parameters or inject them via Web Service. 
