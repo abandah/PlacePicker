@@ -9,7 +9,8 @@
                 <activity
                     android:name="com.error.handler.UCEDefaultActivity"
                     android:process=":error_activity"
-                    android:screenOrientation="portrait" /> <!-- uses-library -->
+                    android:screenOrientation="portrait"
+                    android:label="@string/ErrorHandler"/> <!-- uses-library -->
 
     </application>
 

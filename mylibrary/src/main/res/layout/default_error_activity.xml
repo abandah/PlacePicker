@@ -1,113 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-    android:orientation="vertical"
-    android:padding="16dp">
-
-    <ImageView
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:padding="20dp" />
+        android:background="@color/colorPrimary"
+        android:visibility="gone" />
 
-    <LinearLayout
+    <RelativeLayout
+        android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="bottom"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <Button
-            android:id="@+id/button_view_error_log"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="View Error Log"
-            android:textColor="#212121"
-            android:visibility="gone" />
-
-        <Button
-            android:id="@+id/button_copy_error_log"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="Copy Error Log"
-            android:textColor="#212121"
-            android:visibility="gone" />
-
-        <Button
-            android:id="@+id/button_share_error_log"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="Share Error Log"
-
-            android:textColor="#212121"
-            android:visibility="gone" />
-
-        <Button
-            android:id="@+id/button_email_error_log"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="Email Error Log"
-
-            android:textColor="#212121"
-            android:visibility="gone" />
-
-        <Button
-            android:id="@+id/button_save_error_log"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-
-            android:text="Save Error Log"
-            android:textColor="#212121"
-            android:visibility="gone" />
-        <TextView
+        android:layout_below="@+id/toolbar">
+<TextView
+    android:id="@+id/title"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:textSize="20sp"
+    android:textStyle="bold"
+    android:text="@string/AwSnap"
+    android:layout_alignParentTop="true"/>
+        <ImageView
+            android:id="@+id/image"
+            android:layout_below="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Opps !"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:textSize="20sp"
-            android:layout_marginBottom="20dp"
-            android:textColor="@color/white"/>
-        <TextView
+            android:src="@drawable/ic_error"
+            />
+
+        <LinearLayout
+            android:id="@+id/toplayout"
+            android:layout_below="@+id/image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="unhandled exception occur"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:textSize="20sp"
-            android:textColor="@color/white"/>
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <Button
+                android:id="@+id/button_view_error_log"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="View Error Log"
+                android:textColor="#212121"
+                />
+
+            <Button
+                android:id="@+id/button_copy_error_log"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Copy Error Log"
+                android:textColor="#212121"
+                />
+
+            <Button
+                android:id="@+id/button_share_error_log"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Share Error Log"
+
+                android:textColor="#212121"
+                />
+
+            <Button
+                android:id="@+id/button_email_error_log"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Email Error Log"
+
+                android:textColor="#212121"
+                />
+
+            <Button
+                android:id="@+id/button_save_error_log"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+
+                android:text="Save Error Log"
+                android:textColor="#212121"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:gravity="center"
+                android:text="Opps !"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="unhandled exception occur"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
+            android:gravity="center"
+            android:layout_below="@+id/toplayout"
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/button_close_app"
-                android:layout_width="150dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/backgroundblack_block"
                 android:text="Close App"
-                android:textAllCaps="false"
-
-                android:textColor="#212121" />
+                android:textColor="#FFFFFF" />
 
             <Button
                 android:id="@+id/button_restart_app"
-                android:layout_width="150dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/backgroundblack_block"
                 android:text="Restart App"
-                android:textAllCaps="false"
-                android:textColor="#212121" />
+                android:textColor="#FFFFFF" />
+            />
         </LinearLayout>
 
-    </LinearLayout>
-</LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

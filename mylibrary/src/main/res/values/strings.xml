@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">ErrorHandler</string>
+    <string name="ErrorHandler">Error Handler</string>
+    <string name="AwSnap">Aw, Snap! \n An error has occurred</string>
     <string name="Error_Log" translatable="false">Error Log</string>
     <string name="Copy_Log_Close" translatable="false"><![CDATA[Copy Log & Close]]></string>
     <string name="Close">Close</string>

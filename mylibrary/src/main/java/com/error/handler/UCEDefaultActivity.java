@@ -33,9 +33,14 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.text.TextUtils;
 import android.util.TypedValue;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.gson.JsonElement;
 
@@ -52,27 +57,35 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public final class UCEDefaultActivity extends Activity {
+public final class UCEDefaultActivity extends AppCompatActivity {
     private File txtFile;
     private String strCurrentErrorLog;
+    Toolbar toolbar;
 
     @SuppressLint("PrivateResource")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(android.R.style.Theme_Holo_Light_DarkActionBar);
+        //setTheme(android.R.style.Theme_Holo_Light_DarkActionBar);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.default_error_activity);
-        try {
-           /* new UCEHandler.Builder(this)
-                    .setTrackActivitiesEnabled(false)
-                    .setLink("http://upd.lenvosoft.com/updater/webservices/webservice.asmx/")
-                    .addCommaSeparatedEmailAddresses("")
-                    .build();*/
-           // if (!BuildConfig.DEBUG)
-                SendError();
-        } catch (Exception e) {
-
+        if (getSupportActionBar() == null) {
+            toolbar = findViewById(R.id.toolbar);
+            //     toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_baseline_arrow_back_24));
+            toolbar.setTitleTextColor(getResources().getColor(R.color.white));
+            setSupportActionBar(toolbar);
+           /* toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });*/
+            toolbar.setVisibility(View.VISIBLE);
         }
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24);
+
+
         findViewById(R.id.button_close_app).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -142,7 +155,11 @@ public final class UCEDefaultActivity extends Activity {
             }
         });
     }
-
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        UCEHandler.RestartApplication(UCEDefaultActivity.this);
+        return super.onOptionsItemSelected(item);
+    }
     public String getApplicationName(Context context) {
         ApplicationInfo applicationInfo = context.getApplicationInfo();
         int stringId = applicationInfo.labelRes;
