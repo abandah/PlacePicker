@@ -1,19 +1,7 @@
 <resources>
-    <string name="app_name">ErrorHandler</string>
-    <string name="ErrorHandler">Error Handler</string>
-    <string name="AwSnap">Aw, Snap! \n An error has occurred</string>
-    <string name="Error_Log" translatable="false">Error Log</string>
-    <string name="Copy_Log_Close" translatable="false"><![CDATA[Copy Log & Close]]></string>
-    <string name="Close">Close</string>
-    <string name="Unknown" translatable="false">Unknown</string>
-    <string name="Email_Error_Log" translatable="false">Email Error Log</string>
-    <string name="File_Saved_Successfully">File Saved Successfully</string>
-    <string name="Storage_Permission_Not_Found" translatable="false">Storage Permission Not Found</string>
-    <string name="Application_Crash_Error_Log" translatable="false">Application Crash Error Log</string>
-    <string name="Share_Error_Log" translatable="false">Share Error Log</string>
-    <string name="View_Error_Log" translatable="false">View Error Log</string>
-    <string name="Error_Log_Copied" translatable="false">Error Log Copied</string>
-    <string name="email_welcome_note">Dear Dev Team,\n\nApplication is just crashed, please check following error log for more details.\n\n\n</string>
-    <string name="comma_separated_email_addresses" translatable="false">comma separated email addresses</string>
+    <string name="app_name">PlacePicker</string>
+    <string name="title_activity_place_picker">Map</string>
+
+    <string name="no_address">Not a valid Address</string>
 
 </resources>

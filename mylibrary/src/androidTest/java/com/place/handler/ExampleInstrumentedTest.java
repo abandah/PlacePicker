@@ -1,4 +1,4 @@
-package com.error.handler;
+package com.place.handler;
 
 import android.content.Context;
 import androidx.test.platform.app.InstrumentationRegistry;

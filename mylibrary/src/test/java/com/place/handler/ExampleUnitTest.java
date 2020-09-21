@@ -1,4 +1,4 @@
-package com.error.handler;
+package com.place.handler;
 
 import org.junit.Test;
 
