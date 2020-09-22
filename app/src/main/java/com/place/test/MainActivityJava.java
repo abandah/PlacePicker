@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.place.picker.AddressData;
 import com.place.picker.Constants;
+import com.place.picker.MainActivity;
 import com.place.picker.MapType;
 import com.place.picker.PlacePicker;
 

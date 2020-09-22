@@ -1,7 +1,10 @@
 package com.place.picker
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.content.pm.ApplicationInfo
+import android.content.pm.PackageManager
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.RawRes
@@ -16,6 +19,11 @@ class PlacePicker {
             fun  getPictureLink(latitude: Double, longitude: Double, API: String): String {
                 return "http://maps.google.com/maps/api/staticmap?center=" + latitude + "," + longitude + "&zoom=15&size=200x200&sensor=false&key=" + API;
 
+            }
+            fun  getAppKey(activity : Context): String? {
+                 val applicationInfo : ApplicationInfo =activity.getPackageManager().getApplicationInfo(activity.getPackageName(), PackageManager.GET_META_DATA);
+
+                return applicationInfo.metaData.getString("com.google.android.geo.API_KEY");
             }
         }
 
@@ -121,7 +129,7 @@ class PlacePicker {
             intent.putExtra(Constants.MAP_RAW_STYLE_RES_INTENT, mapRawResourceStyleRes)
             intent.putExtra(Constants.MAP_TYPE_INTENT, mapType)
             intent.putExtra(Constants.ONLY_COORDINATES_INTENT, onlyCoordinates)
-            intent.putExtra(Constants.GOOGLE_API_KEY, googleApiKey)
+            intent.putExtra(Constants.GOOGLE_API_KEY, Util.getAppKey(activity))
             intent.putExtra(Constants.SEARCH_BAR_ENABLE, searchBarEnable)
             intent.putExtra(Constants.HIDE_LOCATION_BUTTON, hideLocation)
             intent.putExtra(Constants.DISABLE_MARKER_ANIMATION, disableMarkerAnimation)
