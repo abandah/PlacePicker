@@ -103,7 +103,19 @@ class PlacePickerActivity : AppCompatActivity(), OnMapReadyCallback {
         sendOnlyCoordinates()
       } else {
         if (addresses != null) {
-          val addressData = AddressData(latitude, longitude, addresses)
+          val addressData = AddressData(latitude, longitude, addresses,
+                  "https://maps.google.com/maps/api/staticmap?" +
+                "center="+latitude+","+longitude+
+                "&" +
+                "zoom=15" +
+                "&" +
+                "size=200x200" +
+                "&" +
+                "&markers="+latitude+","+longitude+
+                "&"+
+                "sensor=false" +
+                "&" +
+                "key="+googleApiKey);
           val returnIntent = Intent()
           returnIntent.putExtra(Constants.ADDRESS_INTENT, addressData)
           setResult(RESULT_OK, returnIntent)
@@ -205,7 +217,19 @@ class PlacePickerActivity : AppCompatActivity(), OnMapReadyCallback {
   }
 
   private fun sendOnlyCoordinates() {
-    val addressData = AddressData(latitude, longitude, null)
+    val addressData = AddressData(latitude, longitude, null,
+            "https://maps.google.com/maps/api/staticmap?" +
+                    "center="+latitude+","+longitude+
+                    "&" +
+                    "zoom=15" +
+                    "&" +
+                    "size=200x200" +
+                    "&" +
+                    "&markers="+latitude+","+longitude+
+                    "&"+
+                    "sensor=false" +
+                    "&" +
+                    "key="+googleApiKey)
     val returnIntent = Intent()
     returnIntent.putExtra(Constants.ADDRESS_INTENT, addressData)
     setResult(RESULT_OK, returnIntent)

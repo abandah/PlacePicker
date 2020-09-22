@@ -8,7 +8,8 @@ import kotlinx.android.parcel.Parcelize
 data class AddressData(
   var latitude: Double,
   var longitude: Double,
-  var addressList: List<Address>? = null
+  var addressList: List<Address>? = null,
+  var staticMapUrl :String
 ): Parcelable {
   override fun toString(): String {
     return latitude.toString()+"\n" +
