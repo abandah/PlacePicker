@@ -60,6 +60,7 @@ public static String getAppKey(){
         return applicationInfo.metaData.getString("com.google.android.geo.API_KEY");
     }
 ```
+```
   @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == Constants.PLACE_PICKER_REQUEST) {
@@ -74,10 +75,6 @@ public static String getAppKey(){
         }
     }
 ```
-```
-
-```
-
 **Step 4.**  in manifist add API KEY meta Data:
 
 ```
