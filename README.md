@@ -1,9 +1,9 @@
-# ErrorHandler
-[![Release](https://jitpack.io/v/abandah/ErrorHandler.svg?style=flat-square)](https://jitpack.io/#abandah/ErrorHandler)
+# PlacePicker
+[![Release](https://jitpack.io/v/abandah/PlacePicker.svg?style=flat-square)](https://jitpack.io/#abandah/PlacePicker)
 
-> Error handling library for Android and Java
+> Place Picker library for Android and Java
 
-Encapsulate error handling logic into objects that adhere to configurable defaults. Then pass them around as parameters or inject them via Web Service. 
+Encapsulate Place Picking logic into objects that adhere to configurable defaults.
 
 
 Building with JitPack
@@ -29,30 +29,60 @@ gradle
 
 ```
 dependencies {
-    implementation 'com.github.abandah:ErrorHandler:0.1.4'
+    implementation 'com.github.abandah:PlacePicker:0.0.2'
 }
 ```
 
-**Step 3.**  Create new Class extends Application and add Code inside onCreate()
+**Step 3.**  Codeing
 
 ```
-public class app extends Application {
+         Intent intent = new PlacePicker.IntentBuilder()
+                        .setLatLong(32.027047,35.859087)
+                        .showLatLong(true)
+                        .setMapType(MapType.NORMAL)
+                        .setPlaceSearchBar(true, apikey)
+                        .build(MainActivityJava.this);
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-            new UCEHandler.Builder(this)
-                    .setTrackActivitiesEnabled(false)
-                    .setLink("WebService Link here")
-                    .build();
+                startActivityForResult(intent, Constants.PLACE_PICKER_REQUEST);
 }
 ```
-**Step 4.**  Add  android:name=".app" under application in manifist:
+```
+
+public static String getAppKey(){
+        Context activity = App.getContext();
+        ApplicationInfo applicationInfo = null;
+        try {
+            applicationInfo = activity.getPackageManager().getApplicationInfo(activity.getPackageName(), PackageManager.GET_META_DATA);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return applicationInfo.metaData.getString("com.google.android.geo.API_KEY");
+    }
+```
+  @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == Constants.PLACE_PICKER_REQUEST) {
+            if (resultCode == Activity.RESULT_OK && data != null) {
+                try {
+                    AddressData addressData = data.getParcelableExtra(Constants.ADDRESS_INTENT);
+                } catch (Exception e) {
+                }
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+```
+```
 
 ```
- <application
-        android:name=".app"
-        .
-        .
+
+**Step 4.**  in manifist add API KEY meta Data:
+
+```
+ <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="API KEY"/>
         
 ```
