@@ -142,7 +142,16 @@ class PlacePicker {
             return intent
         }
 
-        fun Run(activity: Activity) {
+        fun Run (context : PlacePickerListener){
+            if (context is Activity) {
+                Run(context as Activity)
+            }else if (context is Fragment){
+                Run(context as Fragment)
+            }else{
+                context.onPlaceError("Error on attach")
+            }
+        }
+        private fun Run(activity: Activity) {
             val i: Intent = build(activity);
             googleApiKey = i.getStringExtra(Constants.GOOGLE_API_KEY);
             if (googleApiKey == null || googleApiKey.equals("")) {
@@ -153,7 +162,7 @@ class PlacePicker {
             PlacePickerActivity.setPlacePickerListener(activity as PlacePickerListener)
         }
 
-        fun Run(fragment: Fragment) {
+        private fun Run(fragment: Fragment) {
             this.activity = fragment.activity!!
             val i: Intent = build(activity);
             googleApiKey = i.getStringExtra(Constants.GOOGLE_API_KEY);
