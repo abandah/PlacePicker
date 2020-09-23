@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.RawRes
+import androidx.fragment.app.Fragment
 
 
 class PlacePicker {
@@ -16,12 +17,13 @@ class PlacePicker {
         //Foo.Companion.a();
         companion object {
             @JvmStatic
-            fun  getPictureLink(latitude: Double, longitude: Double, API: String): String {
+            fun getPictureLink(latitude: Double, longitude: Double, API: String): String {
                 return "http://maps.google.com/maps/api/staticmap?center=" + latitude + "," + longitude + "&zoom=15&size=200x200&sensor=false&key=" + API;
 
             }
-            fun  getAppKey(activity : Context): String? {
-                 val applicationInfo : ApplicationInfo =activity.getPackageManager().getApplicationInfo(activity.getPackageName(), PackageManager.GET_META_DATA);
+
+            fun getAppKey(activity: Context): String? {
+                val applicationInfo: ApplicationInfo = activity.getPackageManager().getApplicationInfo(activity.getPackageName(), PackageManager.GET_META_DATA);
 
                 return applicationInfo.metaData.getString("com.google.android.geo.API_KEY");
             }
@@ -68,7 +70,10 @@ class PlacePicker {
         }
 
         fun setPlaceSearchBar(value: Boolean, googleApiKey: String? = null) = apply {
-            this.googleApiKey = googleApiKey
+            this.searchBarEnable = value
+        }
+
+        fun setPlaceSearchBar(value: Boolean) = apply {
             this.searchBarEnable = value
         }
 
@@ -133,8 +138,33 @@ class PlacePicker {
             intent.putExtra(Constants.SEARCH_BAR_ENABLE, searchBarEnable)
             intent.putExtra(Constants.HIDE_LOCATION_BUTTON, hideLocation)
             intent.putExtra(Constants.DISABLE_MARKER_ANIMATION, disableMarkerAnimation)
+
             return intent
         }
+
+        fun Run(activity: Activity) {
+            val i: Intent = build(activity);
+            googleApiKey = i.getStringExtra(Constants.GOOGLE_API_KEY);
+            if (googleApiKey == null || googleApiKey.equals("")) {
+                (activity as PlacePickerListener ).onPlaceError("API key not found.  Check that <meta-data android:name=\"com.google.android.geo.API_KEY\" android:value=\"your API key\"/>")
+                return
+            }
+            activity.startActivity(i);
+            PlacePickerActivity.setPlacePickerListener(activity as PlacePickerListener)
+        }
+
+        fun Run(fragment: Fragment) {
+            this.activity = fragment.activity!!
+            val i: Intent = build(activity);
+            googleApiKey = i.getStringExtra(Constants.GOOGLE_API_KEY);
+            if (googleApiKey == null || googleApiKey.equals("")) {
+                (fragment as PlacePickerListener ).onPlaceError("API key not found.  Check that <meta-data android:name=\"com.google.android.geo.API_KEY\" android:value=\"your API key\"/>")
+                return
+            }
+            fragment.startActivity(i);
+            PlacePickerActivity.setPlacePickerListener(fragment as PlacePickerListener)
+        }
+
     }
 
 }

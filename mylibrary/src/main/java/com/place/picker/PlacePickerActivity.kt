@@ -31,13 +31,17 @@ import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.place.picker.R
 import kotlinx.android.synthetic.main.activity_place_picker.*
 import java.util.*
 
 class PlacePickerActivity : AppCompatActivity(), OnMapReadyCallback {
 
   companion object {
+    fun setPlacePickerListener(pPListener: PlacePickerListener) = apply {
+      placePickerListener =pPListener
+    }
+
+    private lateinit var placePickerListener: PlacePickerListener
     private const val TAG = "PlacePickerActivity"
   }
 
@@ -45,7 +49,6 @@ class PlacePickerActivity : AppCompatActivity(), OnMapReadyCallback {
   private lateinit var placeAutocomplete: AutocompleteSupportFragment
   private var googleApiKey: String? = null
   private var searchBarEnable: Boolean = false
-
   private lateinit var markerImage: ImageView
   private lateinit var markerShadowImage: ImageView
   private lateinit var placeSelectedFab: FloatingActionButton
@@ -105,20 +108,22 @@ class PlacePickerActivity : AppCompatActivity(), OnMapReadyCallback {
         if (addresses != null) {
           val addressData = AddressData(latitude, longitude, addresses,
                   "https://maps.google.com/maps/api/staticmap?" +
-                "center="+latitude+","+longitude+
-                "&" +
-                "zoom=15" +
-                "&" +
-                "size=200x200" +
-                "&" +
-                "&markers="+latitude+","+longitude+
-                "&"+
-                "sensor=false" +
-                "&" +
-                "key="+googleApiKey);
-          val returnIntent = Intent()
-          returnIntent.putExtra(Constants.ADDRESS_INTENT, addressData)
-          setResult(RESULT_OK, returnIntent)
+                          "center=" + latitude + "," + longitude +
+                          "&" +
+                          "zoom=15" +
+                          "&" +
+                          "size=200x200" +
+                          "&" +
+                          "&markers=" + latitude + "," + longitude +
+                          "&" +
+                          "sensor=false" +
+                          "&" +
+                          "key=" + googleApiKey);
+        //  val returnIntent = Intent()
+      //    returnIntent.putExtra(Constants.ADDRESS_INTENT, addressData)
+         // setResult(RESULT_OK, returnIntent)
+
+          placePickerListener.onPlaceSuccessful(addressData)
           finish()
         } else {
           if (!addressRequired) {
@@ -134,10 +139,10 @@ class PlacePickerActivity : AppCompatActivity(), OnMapReadyCallback {
     myLocationFab.setOnClickListener {
       if(this::map.isInitialized) {
         map.animateCamera(
-          CameraUpdateFactory.newLatLngZoom(
-            LatLng(initLatitude, initLongitude),
-            zoom
-          )
+                CameraUpdateFactory.newLatLngZoom(
+                        LatLng(initLatitude, initLongitude),
+                        zoom
+                )
         )
       }
     }
@@ -148,7 +153,7 @@ class PlacePickerActivity : AppCompatActivity(), OnMapReadyCallback {
     if (supportActionBar == null) {
       toolbar = findViewById<Toolbar>(R.id.toolbar)
       //     toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_baseline_arrow_back_24));
-      toolbar.setTitleTextColor(ContextCompat.getColor(this,R.color.white))
+      toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.white))
       setSupportActionBar(toolbar)
       /* toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
@@ -169,18 +174,18 @@ class PlacePickerActivity : AppCompatActivity(), OnMapReadyCallback {
       Places.initialize(applicationContext, googleApiKey!!)
     }
 
-    findViewById<CardView>(R.id.search_bar_card_view).visibility = View.GONE
+    findViewById<CardView>(R.id.search_bar_card_view).visibility = View.VISIBLE
     placeAutocomplete = supportFragmentManager.findFragmentById(R.id.place_autocomplete)
             as AutocompleteSupportFragment
 
     placeAutocomplete.setPlaceFields(
-      Arrays.asList(
-        Place.Field.ID,
-        Place.Field.NAME,
-        Place.Field.LAT_LNG,
-        Place.Field.ADDRESS,
-        Place.Field.ADDRESS_COMPONENTS
-      )
+            Arrays.asList(
+                    Place.Field.ID,
+                    Place.Field.NAME,
+                    Place.Field.LAT_LNG,
+                    Place.Field.ADDRESS,
+                    Place.Field.ADDRESS_COMPONENTS
+            )
     )
     placeAutocomplete.setOnPlaceSelectedListener(object : PlaceSelectionListener {
       override fun onPlaceSelected(place: Place) {
@@ -219,20 +224,21 @@ class PlacePickerActivity : AppCompatActivity(), OnMapReadyCallback {
   private fun sendOnlyCoordinates() {
     val addressData = AddressData(latitude, longitude, null,
             "https://maps.google.com/maps/api/staticmap?" +
-                    "center="+latitude+","+longitude+
+                    "center=" + latitude + "," + longitude +
                     "&" +
                     "zoom=15" +
                     "&" +
                     "size=200x200" +
                     "&" +
-                    "&markers="+latitude+","+longitude+
-                    "&"+
+                    "&markers=" + latitude + "," + longitude +
+                    "&" +
                     "sensor=false" +
                     "&" +
-                    "key="+googleApiKey)
-    val returnIntent = Intent()
-    returnIntent.putExtra(Constants.ADDRESS_INTENT, addressData)
-    setResult(RESULT_OK, returnIntent)
+                    "key=" + googleApiKey)
+    //val returnIntent = Intent()
+    //returnIntent.putExtra(Constants.ADDRESS_INTENT, addressData)
+    //setResult(RESULT_OK, returnIntent)
+    placePickerListener.onPlaceSuccessful(addressData)
     finish()
   }
 
@@ -255,6 +261,13 @@ class PlacePickerActivity : AppCompatActivity(), OnMapReadyCallback {
     mapType = intent.getSerializableExtra(Constants.MAP_TYPE_INTENT) as MapType
     onlyCoordinates = intent.getBooleanExtra(Constants.ONLY_COORDINATES_INTENT, false)
     googleApiKey = intent.getStringExtra(Constants.GOOGLE_API_KEY)
+    if(googleApiKey == null || googleApiKey.equals("")){
+      //val returnIntent = Intent()
+     // returnIntent.putExtra("Error", )
+      //setResult(RESULT_CANCELED, returnIntent)
+      placePickerListener.onPlaceError(getString(R.string.PleaseEnterAPIKEY))
+      finish()
+    }
     searchBarEnable = intent.getBooleanExtra(Constants.SEARCH_BAR_ENABLE, false)
     hideLocationButton = intent.getBooleanExtra(Constants.HIDE_LOCATION_BUTTON, false)
     disableMarkerAnimation = intent.getBooleanExtra(Constants.DISABLE_MARKER_ANIMATION, false)
@@ -327,12 +340,12 @@ class PlacePickerActivity : AppCompatActivity(), OnMapReadyCallback {
       else -> GoogleMap.MAP_TYPE_NORMAL
     }
     if (ActivityCompat.checkSelfPermission(
-        this,
-        Manifest.permission.ACCESS_FINE_LOCATION
-      ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-        this,
-        Manifest.permission.ACCESS_COARSE_LOCATION
-      ) != PackageManager.PERMISSION_GRANTED
+                    this,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
     ) {
       // TODO: Consider calling
       //    ActivityCompat#requestPermissions
@@ -356,10 +369,10 @@ class PlacePickerActivity : AppCompatActivity(), OnMapReadyCallback {
   }
 
   private fun setPlaceDetails(
-    latitude: Double,
-    longitude: Double,
-    shortAddress: String,
-    fullAddress: String
+          latitude: Double,
+          longitude: Double,
+          shortAddress: String,
+          fullAddress: String
   ) {
 
     if (latitude == -1.0 || longitude == -1.0) {
@@ -382,8 +395,8 @@ class PlacePickerActivity : AppCompatActivity(), OnMapReadyCallback {
   }
 
   private fun setAddress(
-    latitude: Double,
-    longitude: Double
+          latitude: Double,
+          longitude: Double
   ) {
     val geoCoder = Geocoder(this, Locale.getDefault())
     try {
@@ -391,7 +404,7 @@ class PlacePickerActivity : AppCompatActivity(), OnMapReadyCallback {
       this.addresses = addresses
       return if (addresses != null && addresses.size != 0) {
         fullAddress = addresses[0].getAddressLine(
-            0
+                0
         ) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
         shortAddress = generateFinalAddress(fullAddress).trim()
       } else {
@@ -408,7 +421,7 @@ class PlacePickerActivity : AppCompatActivity(), OnMapReadyCallback {
   }
 
   private fun generateFinalAddress(
-    address: String
+          address: String
   ): String {
     val s = address.split(",")
     return if (s.size >= 3) s[1] + "," + s[2] else if (s.size == 2) s[1] else s[0]
