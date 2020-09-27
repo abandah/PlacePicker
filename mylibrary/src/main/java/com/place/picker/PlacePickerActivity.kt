@@ -206,6 +206,7 @@ class PlacePickerActivity : AppCompatActivity(), OnMapReadyCallback {
     })
   }
   override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    placePickerListener.onPlaceError("Closed");
     finish()
     return super.onOptionsItemSelected(item)
   }
