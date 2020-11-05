@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
+import android.util.Log
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.RawRes
@@ -33,6 +34,7 @@ class PlacePicker {
 
     class IntentBuilder {
 
+        private var markerSize: Int = 0
         private lateinit var activity: Activity
         private var showLatLong: Boolean = false
         private var latitude: Double = Constants.DEFAULT_LATITUDE
@@ -116,6 +118,10 @@ class PlacePicker {
         fun disableMarkerAnimation(disableMarkerAnimation: Boolean) =
                 apply { this.disableMarkerAnimation = disableMarkerAnimation }
 
+        fun setMarkerSize(wigth : Int) = apply {
+            this.markerSize = wigth
+            Log.e("TAGTAG","TAGTAG")
+        }
         fun build(activity: Activity): Intent {
             this.activity = activity
             val intent = Intent(activity, PlacePickerActivity::class.java)
@@ -138,6 +144,7 @@ class PlacePicker {
             intent.putExtra(Constants.SEARCH_BAR_ENABLE, searchBarEnable)
             intent.putExtra(Constants.HIDE_LOCATION_BUTTON, hideLocation)
             intent.putExtra(Constants.DISABLE_MARKER_ANIMATION, disableMarkerAnimation)
+            intent.putExtra(Constants.MarkerSize, markerSize)
 
             return intent
         }
